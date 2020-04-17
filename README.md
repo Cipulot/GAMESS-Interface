@@ -1,5 +1,5 @@
 # GAMESS-Interface
-Very simple but yet effective GUI to use in combination with the GAMESS, general ab initio quantum chemistry package.
+Very simple but yet effective GUI to use in combination with the GAMESS (The General Atomic and Molecular Electronic Structure System), general ab initio quantum chemistry package.
 
 ## Getting started
 This GUI is meant for those who don't wanna spend time with long commands inputs to start their GAMESS jobs.

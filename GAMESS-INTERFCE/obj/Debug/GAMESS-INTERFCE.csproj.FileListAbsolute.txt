@@ -1,0 +1,12 @@
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\bin\Debug\GAMESS-INTERFCE.exe.config
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\bin\Debug\GAMESS-INTERFCE.exe
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\bin\Debug\GAMESS-INTERFCE.pdb
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Debug\GAMESS_INTERFCE.AboutBox1.resources
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Debug\GAMESS_INTERFCE.Form1.resources
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Debug\GAMESS_INTERFCE.Form2.resources
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Debug\GAMESS_INTERFCE.Properties.Resources.resources
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Debug\GAMESS-INTERFCE.csproj.GenerateResource.cache
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Debug\GAMESS-INTERFCE.exe
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Debug\GAMESS-INTERFCE.pdb
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Debug\GAMESS-INTERFCE.csprojAssemblyReference.cache
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Debug\GAMESS-INTERFCE.csproj.CoreCompileInputs.cache

@@ -13,7 +13,7 @@ namespace GAMESS_INTERFCE
     //Just delete the "\B" or "/B" @ the end of the file. NOTE: multiple exit found....
     public partial class Form2 : Form
     {
-        private string folderName, Batfiletext;
+        private string Batfiletext;
         bool exit_with_button = false;
         bool mainsettings = true;
         bool wrongemailsettings = false;
@@ -67,22 +67,6 @@ namespace GAMESS_INTERFCE
             }
         }
 
-        private void Button2_Click(object sender, EventArgs e)
-        {
-            //Path to gamess explorer
-            DialogResult result = folderBrowserDialog1.ShowDialog();
-            if (result == DialogResult.OK) folderName = folderBrowserDialog1.SelectedPath;
-            textBox2.Text = folderName;
-        }
-
-        private void Button3_Click(object sender, EventArgs e)
-        {
-            //Path to gamess  dat files explorer
-            DialogResult result = folderBrowserDialog1.ShowDialog();
-            if (result == DialogResult.OK) folderName = folderBrowserDialog1.SelectedPath;
-            textBox3.Text = folderName;
-        }
-
         private void TextBox4_TextChanged(object sender, EventArgs e)
         {
             IsEmailValid(textBox4);
@@ -125,8 +109,6 @@ namespace GAMESS_INTERFCE
                 Batfiletext = Batfiletext.Replace(" /B", "");
                 //File.WriteAllText(Settings.Default.path_to_gamess + "\\rungms.bat", batfiletext);
                 File.WriteAllText(Settings.Default.Gamess + "\\rungms.bat", Batfiletext);
-                Settings.Default.Is_First_Run = false;
-                Settings.Default.Terminated_before_save = false;
                 Settings.Default.Save();
                 exit_with_button = true;
             }
@@ -134,8 +116,6 @@ namespace GAMESS_INTERFCE
             catch
             {
                 MessageBox.Show("Something went wrong...maybe you specified a path that is NOT the GAMESS one...", "Critical error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Settings.Default.Is_First_Run = true;
-                Settings.Default.Terminated_before_save = false;
             }
             this.Close();
         }
@@ -143,24 +123,6 @@ namespace GAMESS_INTERFCE
         private void Form2_Load(object sender, EventArgs e)
         {
             this.FormClosing += new FormClosingEventHandler(Form2_Closing);
-            //If this is the first time that the app is run, put a placeholder for the gamess version and clear out all other stuff.
-            //NOTE: the version must be user specified
-            if (Settings.Default.Is_First_Run)
-            {
-                //These are the default values for the app settings
-                Settings.Default.Version = "2019.R1.P1.mkl";
-                Settings.Default.Gamess = "";
-                Settings.Default.Gamess_dat_file = "";
-                Settings.Default.sender_email = "";
-                Settings.Default.sender_password = "";
-                Settings.Default.receiver_email = "";
-                Settings.Default.Terminated_before_save = false;
-                Settings.Default.Enable_email = false;
-                Settings.Default.Is_First_Run = true;
-                IsEmailValid(textBox4);
-                IsEmailValid(textBox6);
-            }
-            //Else use the user settings defined
             textBox1.Text = Settings.Default.Version;
             textBox2.Text = Settings.Default.Gamess;
             textBox3.Text = Settings.Default.Gamess_dat_file;
@@ -172,6 +134,7 @@ namespace GAMESS_INTERFCE
             IsEmailValid(textBox6);
         }
 
+
         private void Form2_Closing(object sender, FormClosingEventArgs e)
         {
             //Check the exit method....
@@ -182,14 +145,12 @@ namespace GAMESS_INTERFCE
                 if (exit_with_button == false)
                 {
                     MessageBox.Show("Settings won't be saved...", "Exit", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Settings.Default.Terminated_before_save = true;
                     Settings.Default.Save();
                 }
             }
             else
             {
                 //Or else the user ended the set up process and a permanent flag is set for future checks
-                Settings.Default.Terminated_before_save = false;
                 //Save specified settings
                 Settings.Default.Save();
             }

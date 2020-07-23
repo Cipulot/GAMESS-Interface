@@ -1,4 +1,5 @@
 ﻿using GAMESS_INTERFCE.Properties;
+using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
+using System.Collections;
 using System.Windows.Forms;
 
 namespace GAMESS_INTERFCE
@@ -45,10 +48,12 @@ namespace GAMESS_INTERFCE
                 button3.Enabled = false;
                 button4.Enabled = false;
                 textBox3.Text = "Executing code...\r\n";
+
                 //Here we prepare the arguments for the bat gamess file with the correct format
                 string outtext;
                 string batpath = string.Format(Settings.Default.Gamess + "\\rungms.bat");
                 string arguments = string.Format("{0} {1} {2} 0 {3}", Input_job_file, Settings.Default.Version, Ncpus, Log_file);
+
                 //Here we need to copy the input file to the gamess directory in order to avoid errors
                 File.Copy(Input_job_file, Settings.Default.Gamess + "\\" + FileNameWithoutExtension + ".inp");
                 Process gamessjob = new Process();
@@ -68,8 +73,10 @@ namespace GAMESS_INTERFCE
                 {
                     textBox3.AppendText(outtext + "\r\n");
                 }
+
                 //Now the process is completed
                 textBox3.AppendText("\r\nProcess executed!");
+
                 //here we clean up some stuff after GAMESS code ends
                 //This is because gamess will create a copy of the original *.inp file to the working directory but after the run it will still be here
                 File.Delete(Settings.Default.Gamess + "\\" + FileNameWithoutExtension + ".inp");
@@ -107,7 +114,7 @@ namespace GAMESS_INTERFCE
                 textBox1.Text = Openinpfile.FileName;
                 Input_job_file = Openinpfile.FileName;
                 FileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(Openinpfile.FileName);
-                textBox2.Text = ""; //Here we clear the destination path textbox so that the user is forced to browse for a new one
+                textBox2.Text = ""; //Here we clear the destination path text box so that the user is forced to browse for a new one
                                     //Will help prevent overwrite op previous files
             }
         }
@@ -123,6 +130,7 @@ namespace GAMESS_INTERFCE
                 RestoreDirectory = true
 
             };
+
             if (Savelogfile.ShowDialog() == DialogResult.OK)
             {
                 textBox2.Text = Savelogfile.FileName;
@@ -134,6 +142,7 @@ namespace GAMESS_INTERFCE
         private void Button4_Click(object sender, EventArgs e)
         {
             string[] filePaths = Directory.GetFiles(Settings.Default.Gamess_dat_file);
+
             foreach (string filePath in filePaths)
                 File.Delete(filePath);
             MessageBox.Show("Restart folder clean!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -145,7 +154,7 @@ namespace GAMESS_INTERFCE
             //Filter results with the *.dat file format since those are the files that we're interested in...
             OpenFileDialog Openinpfile = new OpenFileDialog
             {
-                InitialDirectory = Settings.Default.Gamess_dat_file + "\\",
+                InitialDirectory = Settings.Default.Gamess_dat_file,
                 Title = "Chose *.dat file",
                 CheckFileExists = true,
                 CheckPathExists = true,
@@ -313,7 +322,7 @@ namespace GAMESS_INTERFCE
             doIhavetosendemail = checkBox1.Checked;
         }
 
-        //Combobox where you can specify how many processes you want to set up for the job
+        //Combo box where you can specify how many processes you want to set up for the job
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Ncpus = comboBox1.Text;
@@ -344,13 +353,136 @@ namespace GAMESS_INTERFCE
             System.Diagnostics.Process.Start("https://forms.gle/myfXTZ1urTQtmsFE8");
         }
 
+        //This is an automated function that checks if GAMESS is installed in the system and retrieves the Version and InstallPath
+        //This will be run every time the program is executed, to ensure that GAMESS is still installed
+        static void Check_GAMESS_install()
+        {
+            //Base registry key
+            string registryKey = @"SOFTWARE\Mark S. Gordon Quantum Theory Group";
+            string version = @"";
+            string path = @"";
+
+            //Read the value of the "Path" and "Version" registry key and store them into separate strings
+            try
+            {
+                RegistryKey key = Registry.LocalMachine.OpenSubKey(registryKey);
+                using (key)
+                {
+                    (from a in key.GetSubKeyNames()
+                     let r = key.OpenSubKey(a)
+                     select new
+                     {
+                         GamessPath = r.GetValue("Path"),
+                         GamessVer = r.GetValue("Version"),
+                     }
+                    )
+                    .Where(c => c.GamessPath != null)
+                    .Where(c => c.GamessVer != null)
+                    .ToList()
+                    .ForEach(c =>
+                    {
+                        version = c.GamessVer.ToString();
+                        path = c.GamessPath.ToString();
+                    });
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Settings.Default.IsGamessInstalled = false;
+                Settings.Default.Save();
+                MessageBox.Show(ex.ToString());
+            }
+
+            //If an installation exists we manipulate the version string to create the exe-filename prototype and the proper version naming
+            if (path != "" && version != "")
+            {
+                Settings.Default.IsGamessInstalled = true;
+                Settings.Default.Gamess = path;
+
+                var builder = new StringBuilder();
+                int cnt = 0;
+                foreach (var c in version)
+                {
+                    builder.Append(c);
+                    if (c == '.')
+                    {
+                        switch (cnt)
+                        {
+                            case 0:
+                                builder.Append('R');
+                                cnt++;
+                                break;
+                            case 1:
+                                builder.Append('P');
+                                cnt++;
+                                break;
+                        }
+                    }
+                }
+                builder.Append(".mkl");
+
+                Settings.Default.Version = builder.ToString();
+                Settings.Default.Gamess = path;
+                Settings.Default.Gamess_dat_file = Settings.Default.Gamess + @"restart\";
+                Settings.Default.ExeFileName = "gamess." + Settings.Default.Version + ".exe";
+                Settings.Default.Save();
+
+#if DEBUG
+                MessageBox.Show(Settings.Default.IsGamessInstalled.ToString());
+                MessageBox.Show(Settings.Default.Version);
+                MessageBox.Show(Settings.Default.Gamess);
+                MessageBox.Show(Settings.Default.Gamess_dat_file);
+                MessageBox.Show(Settings.Default.ExeFileName);
+#endif
+            }
+
+            else
+            {
+                MessageBox.Show("No valid GAMESS installation was found in the system!\nPlease install GAMESS before running this program...", "GAMESS not found");
+                System.Environment.Exit(1);
+            }
+        }
+
+        //Check if any previous instances of GAMESS are running
+        static void Check_running_instances()
+        {
+            bool killed = false;
+            if (Settings.Default.ExeFileName != "")
+            {
+                try //CLOSE any process that it's still running
+                {
+                    foreach (Process proc in Process.GetProcessesByName(Settings.Default.ExeFileName))
+                    {
+                        proc.Kill();
+                        killed = true;
+                    }
+                    if (killed) MessageBox.Show("Some instances of GAMESS were still running.\nThe end of the process has been completed!");
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //Create a closing event handler
             this.FormClosing += new FormClosingEventHandler(Form1_Closing);
-            comboBox1.SelectedIndex = 0;
-            //Set visual check based on settings
-            if (!Settings.Default.Enable_email) checkBox1.Enabled = false;
+
+#if DEBUG
+            MessageBox.Show(Environment.ProcessorCount.ToString());
+#endif
+            for (int i = 1; i <= Environment.ProcessorCount; i++)
+            {
+                comboBox1.Items.Add(i.ToString());
+            }
+
+            //Check the installation and retrieve important data, like version and path of install
+            Check_GAMESS_install();
+
+            Check_running_instances();
+
             //Check for restart folder
             //This folder not always is created when installing gamess
             if (!Directory.Exists(Settings.Default.Gamess_dat_file))
@@ -358,6 +490,11 @@ namespace GAMESS_INTERFCE
                 MessageBox.Show("Path to gamess dat files does not exist.\nCreating one", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Directory.CreateDirectory(Settings.Default.Gamess);
             }
+
+            comboBox1.SelectedIndex = 0;
+            //Set visual check based on settings
+            if (!Settings.Default.Enable_email) checkBox1.Enabled = false;
+
             //clear folder from any *.inp files
             //Maybe the user used gamess before but didn't cleared old input files...
             DirectoryInfo di = new DirectoryInfo(Settings.Default.Gamess);
@@ -374,7 +511,7 @@ namespace GAMESS_INTERFCE
 
         private void Form1_Closing(object sender, FormClosingEventArgs e)
         {
-            //Here we check if the app is beign closed based on user will or if it due to the fact that the user didn't ended the first run settings process
+            //Here we check if the app is being closed based on user will or if it due to the fact that the user didn't ended the first run settings process
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 if (MessageBox.Show("Are you sure to exit?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)

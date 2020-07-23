@@ -1,6 +1,8 @@
 # GAMESS-Interface
 Very simple but yet effective GUI to use in combination with the GAMESS (The General Atomic and Molecular Electronic Structure System), general ab initio quantum chemistry package.
 
+ ![](https://raw.githubusercontent.com/Cipulot/GAMESS-Interface/master/gamess_img.png)
+
 ## Getting started
 This GUI is meant for those who don't wanna spend time with long commands inputs to start their GAMESS jobs.
 It is used to generate analysis files like bond geometry, lone pair electron dislocation and orbital energy distribution that can be displayed is softwares like Avogadro.

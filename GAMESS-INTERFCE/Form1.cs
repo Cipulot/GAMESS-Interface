@@ -391,7 +391,9 @@ namespace GAMESS_INTERFCE
             {
                 Settings.Default.IsGamessInstalled = false;
                 Settings.Default.Save();
+#if DEBUG
                 MessageBox.Show(ex.ToString());
+#endif
             }
 
             //If an installation exists we manipulate the version string to create the exe-filename prototype and the proper version naming

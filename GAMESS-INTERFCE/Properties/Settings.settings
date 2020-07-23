@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Version" Type="System.String" Scope="User">
-      <Value Profile="(Default)">2019.R1.P1.mkl</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Gamess" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -26,7 +26,13 @@
     <Setting Name="Enable_email" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="Is_First_Run" Type="System.Boolean" Scope="User">
+    <Setting Name="ExeFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="IsGamessInstalled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="FirstTime" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

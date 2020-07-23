@@ -12,7 +12,7 @@ namespace GAMESS_INTERFCE.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,7 +25,7 @@ namespace GAMESS_INTERFCE.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2019.R1.P1.mkl")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Version {
             get {
                 return ((string)(this["Version"]));
@@ -119,13 +119,37 @@ namespace GAMESS_INTERFCE.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Is_First_Run {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ExeFileName {
             get {
-                return ((bool)(this["Is_First_Run"]));
+                return ((string)(this["ExeFileName"]));
             }
             set {
-                this["Is_First_Run"] = value;
+                this["ExeFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsGamessInstalled {
+            get {
+                return ((bool)(this["IsGamessInstalled"]));
+            }
+            set {
+                this["IsGamessInstalled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool FirstTime {
+            get {
+                return ((bool)(this["FirstTime"]));
+            }
+            set {
+                this["FirstTime"] = value;
             }
         }
     }

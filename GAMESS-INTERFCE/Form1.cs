@@ -96,7 +96,7 @@ namespace GAMESS_INTERFCE
             //Filter results with the *.inp file format since those are the files that we're interested in...
             OpenFileDialog Openinpfile = new OpenFileDialog
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer),
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 Title = "Chose *.inp file",
                 CheckFileExists = true,
                 CheckPathExists = true,
@@ -124,11 +124,11 @@ namespace GAMESS_INTERFCE
         {
             SaveFileDialog Savelogfile = new SaveFileDialog
             {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 FileName = FileNameWithoutExtension,
                 DefaultExt = ".log",
                 Filter = "log files (*.log)|*.log",
                 RestoreDirectory = true
-
             };
 
             if (Savelogfile.ShowDialog() == DialogResult.OK)
@@ -182,6 +182,7 @@ namespace GAMESS_INTERFCE
         {
             SaveFileDialog Savelogfile = new SaveFileDialog
             {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 FileName = FileNameWithoutExtension,
                 DefaultExt = ".wfn",
                 Filter = "wfn files (*.wfn)|*.wfn",

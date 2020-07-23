@@ -6,5 +6,6 @@ C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Release\G
 C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Release\GAMESS_INTERFCE.Form2.resources
 C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Release\GAMESS_INTERFCE.Properties.Resources.resources
 C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Release\GAMESS-INTERFCE.csproj.GenerateResource.cache
+C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Release\GAMESS-INTERFCE.csproj.CoreCompileInputs.cache
 C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Release\GAMESS-INTERFCE.exe
 C:\Users\cipul\Desktop\Projects\VS\GAMESS-INTERFCE\GAMESS-INTERFCE\obj\Release\GAMESS-INTERFCE.pdb
